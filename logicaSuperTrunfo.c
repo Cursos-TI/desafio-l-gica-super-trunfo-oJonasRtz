@@ -173,48 +173,20 @@ static int add_card(t_card *card, size_t size) {
 }
 
 static void battle(t_card *card1, t_card *card2) {
-	
-	const char*	messages[7] = {
-		BLUE " População: " RESET "Carta %d " BLUE "venceu (%d)\n" RESET,
-		BLUE " Área: " RESET "Carta %d " BLUE "venceu (%d)\n" RESET,
-		BLUE " PIB: " RESET "Carta %d " BLUE "venceu (%d)\n" RESET,
-		BLUE " Pontos turísticos: " RESET "Carta %d " BLUE "venceu (%d)\n" RESET,
-		BLUE " Densidade Populacional: " RESET "Carta %d " BLUE "venceu (%d)\n" RESET,
-		BLUE " PIB per Capita: " RESET "Carta %d " BLUE "venceu (%d)\n" RESET,
-		BLUE " Super Poder: " RESET "Carta %d " BLUE "venceu (%d)\n" RESET
-	};
-
 	// Determine the winner
 	draw_line('=', 50);
-	printf(GREEN "\t\tBatalha entre %s e %s\n" RESET, card1->city, card2->city);
+	printf(GREEN "\tComparação de Cartas (Atributo: Super Poder)\n" RESET);
 
-	// Population
-	int population = card1->population > card2->population;
-	printf(messages[0], population ? 1 : 2, population);
+    printf(YELLOW "Carta 1 - " RESET "%s: %.2f\n", card1->city, card1->super_power);
+    printf(YELLOW "Carta 2 - " RESET "%s: %.2f\n", card2->city, card2->super_power);
 
-	// Area
-	int area = card1->area > card2->area;
-	printf(messages[1], area ? 1 : 2, area);
+    //Compare the super power of both cards and print the result 
+    printf(GREEN "\nResultado: " RESET);
+    if (card1->super_power > card2->super_power)
+        printf("Carta 1 (%s) venceu!\n", card1->city);
+    else
+        printf("Carta 2 (%s) venceu!\n", card2->city);
 
-	// PIB
-	int pib = card1->pib > card2->pib;
-	printf(messages[2], pib ? 1 : 2, pib);
-
-	// Tourist points
-	int tourist_points = card1->tourist_points > card2->tourist_points;
-	printf(messages[3], tourist_points ? 1 : 2, tourist_points);
-
-	// Population density
-	int population_density = card1->population_density < card2->population_density;
-	printf(messages[4], population_density ? 1 : 2, population_density);
-
-	// PIB per capita
-	int pib_per_capita = card1->pib_per_capita > card2->pib_per_capita;
-	printf(messages[5], pib_per_capita ? 1 : 2, pib_per_capita);
-
-	// Super power
-	int super_power = card1->super_power > card2->super_power;
-	printf(messages[6], super_power ? 1 : 2, super_power);
 	
 	draw_line('=', 50); // Draw a line after the battle results for better readability
 }
