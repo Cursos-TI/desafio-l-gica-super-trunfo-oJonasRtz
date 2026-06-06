@@ -191,6 +191,104 @@ static void battle(t_card *card1, t_card *card2) {
 	draw_line('=', 50); // Draw a line after the battle results for better readability
 }
 
+static void menu_options() {
+    printf(GREEN "\n\t\tMenu de Batalha\n" RESET);
+    printf(YELLOW "1. Exibir informacoes.\n" RESET);
+    printf(YELLOW "2. Comparacao por populacao.\n" RESET);
+    printf(YELLOW "3. Comparacao por area.\n" RESET);
+    printf(YELLOW "4. Comparacao por PIB.\n" RESET);
+    printf(YELLOW "5. Comparacao por pontos turisticos.\n" RESET);
+    printf(YELLOW "6. Comparacao por densidade populacional.\n" RESET);
+    printf(YELLOW "7. Exibir menu de opcoes.\n" RESET);
+    printf(YELLOW "8. Sair.\n" RESET);
+}
+
+static void menu(t_card *card1, t_card *card2) {
+    int choice = -1;
+
+
+    menu_options(); // Display the menu options at the start of the battle
+    while (1) {
+        printf(BLUE "$> " RESET);
+        if (scanf("%d", &choice) != 1) {
+            printf(RED "\nEntrada invalida. Por favor, tente novamente.\n" RESET);
+            return;
+        }
+
+        switch (choice) {
+            default:
+                printf(RED "\nOpcao invalida. Por favor, escolha uma opcao entre 1 e 8.\n" RESET);
+                break;
+
+            case 1:
+                print_cards((t_card[]){*card1, *card2}, 2);
+                break;
+            case 2:
+                printf(GREEN "\nComparacao por Populacao\n" RESET);
+                printf(YELLOW "Carta 1 - " RESET "%s: %lu habitantes\n", card1->city, card1->population);
+                printf(YELLOW "Carta 2 - " RESET "%s: %lu habitantes\n", card2->city, card2->population);
+                if (card1->population > card2->population)
+                    printf(GREEN "\nResultado: " RESET "Carta 1 (%s) venceu!\n", card1->city);
+                else if (card1->population < card2->population)
+                    printf(GREEN "\nResultado: " RESET "Carta 2 (%s) venceu!\n", card2->city);
+                else
+                    printf(GREEN "\nResultado: " RESET "Empate!\n");
+                break;
+            case 3:
+                printf(GREEN "\nComparacao por Area\n" RESET);
+                printf(YELLOW "Carta 1 - " RESET "%s: %.2f km²\n", card1->city, card1->area);
+                printf(YELLOW "Carta 2 - " RESET "%s: %.2f km²\n", card2->city, card2->area);
+                if (card1->area > card2->area)
+                    printf(GREEN "\nResultado: " RESET "Carta 1 (%s) venceu!\n", card1->city);
+                else if (card1->area < card2->area)
+                    printf(GREEN "\nResultado: " RESET "Carta 2 (%s) venceu!\n", card2->city);
+                else
+                    printf(GREEN "\nResultado: " RESET "Empate!\n");
+                break;
+            case 4:
+                printf(GREEN "\nComparacao por PIB\n" RESET);
+                printf(YELLOW "Carta 1 - " RESET "%s: %.2f bilhões de reais\n", card1->city, card1->pib);
+                printf(YELLOW "Carta 2 - " RESET "%s: %.2f bilhões de reais\n", card2->city, card2->pib);
+                if (card1->pib > card2->pib)
+                    printf(GREEN "\nResultado: " RESET "Carta 1 (%s) venceu!\n", card1->city);
+                else if (card1->pib < card2->pib)
+                    printf(GREEN "\nResultado: " RESET "Carta 2 (%s) venceu!\n", card2->city);
+                else
+                    printf(GREEN "\nResultado: " RESET "Empate!\n");
+                break;
+            case 5:
+                printf(GREEN "\nComparacao por Pontos Turisticos\n" RESET);
+                printf(YELLOW "Carta 1 - " RESET "%s: %d pontos turisticos\n", card1->city, card1->tourist_points);
+                printf(YELLOW "Carta 2 - " RESET "%s: %d pontos turisticos\n", card2->city, card2->tourist_points);
+                if (card1->tourist_points > card2->tourist_points)
+                    printf(GREEN "\nResultado: " RESET "Carta 1 (%s) venceu!\n", card1->city);
+                else if (card1->tourist_points < card2->tourist_points)
+                    printf(GREEN "\nResultado: " RESET "Carta 2 (%s) venceu!\n", card2->city);
+                else
+                    printf(GREEN "\nResultado: " RESET "Empate!\n");
+                break;
+            case 6:
+                printf(GREEN "\nComparacao por Densidade Populacional\n" RESET);
+                printf(YELLOW "Carta 1 - " RESET "%s: %.2f hab/km²\n", card1->city, card1->population_density);
+                printf(YELLOW "Carta 2 - " RESET "%s: %.2f hab/km²\n", card2->city, card2->population_density);
+                if (card1->population_density < card2->population_density)
+                    printf(GREEN "\nResultado: " RESET "Carta 1 (%s) venceu!\n", card1->city);
+                else if (card1->population_density > card2->population_density)
+                    printf(GREEN "\nResultado: " RESET "Carta 2 (%s) venceu!\n", card2->city);
+                else
+                    printf(GREEN "\nResultado: " RESET "Empate!\n");
+                break;
+
+            case 7:
+                menu_options();
+                break;
+            case 8:
+                printf(GREEN "\nSaindo do jogo. Obrigado por jogar!\n" RESET);
+                return; // Exit the menu loop and end the program
+        }
+    }
+}
+
 int main(void)
 {
 	// Variables
@@ -206,7 +304,7 @@ int main(void)
 	print_cards(cards, size);
 
 	//Battle logic
-	battle(&cards[0], &cards[1]);
+	menu(&cards[0], &cards[1]);
 
 	return (0);
 }
